@@ -1,0 +1,37 @@
+From 3cc9745767bffe9ffe930d1478066da6780b1c1d Mon Sep 17 00:00:00 2001
+From: Raine Makelainen <raine.makelainen@jolla.com>
+Date: Mon, 18 Jun 2018 14:23:12 +0300
+Subject: [PATCH] [] Fix incorrect struct from egl image eos
+
+Signed-off-by: Raine Makelainen <raine.makelainen@jolla.com>
+---
+ hybris/glesv2/glesv2.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/hybris/glesv2/glesv2.c b/hybris/glesv2/glesv2.c
+index 41113cf..4376020 100644
+--- a/hybris/glesv2/glesv2.c
++++ b/hybris/glesv2/glesv2.c
+@@ -25,6 +25,8 @@
+ 
+ #include <hybris/common/binding.h>
+ 
++#include "../egl/ws.h"
++
+ static void *_libglesv2 = NULL;
+ 
+ static void         (*_glActiveTexture)(GLenum texture) = NULL;
+@@ -1044,7 +1046,9 @@ void glViewport (GLint x, GLint y, GLsizei width, GLsizei height)
+ 
+ void glEGLImageTargetTexture2DOES (GLenum target, GLeglImageOES image)
+ {
+-	(*_glEGLImageTargetTexture2DOES)(target, image);
++//	(*_glEGLImageTargetTexture2DOES)(target, image);
++       struct egl_image *img = image;
++       (*_glEGLImageTargetTexture2DOES)(target, img ? img->egl_image : NULL);
+ }
+ 
+ 
+-- 
+2.17.1
+

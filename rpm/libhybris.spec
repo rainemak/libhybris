@@ -7,6 +7,7 @@ Group:     System/Libraries
 License:   ASL 2.0
 URL:       https://github.com/libhybris/libhybris
 Source:    %{name}-%{version}.tar.bz2
+Patch1:    0001-Fix-incorrect-struct-from-egl-image-eos.patch
 BuildRequires: libtool
 BuildRequires: pkgconfig(wayland-client)
 # When droid-hal-ha builds for a specific HA it should provide
@@ -250,6 +251,7 @@ Requires: %{name}-libsync = %{version}-%{release}
 
 %prep
 %setup -q -n %{name}-%{version}/%{name}
+%patch1 -p1
 
 %build
 cd hybris
